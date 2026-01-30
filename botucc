@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 PUBG UC PRO | Ultimate Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --neon-green: #00ff9d;
+            --neon-blue: #00d9ff;
+            --neon-purple: #9d00ff;
+            --dark-bg: #0a0a14;
+            --card-bg: rgba(16, 20, 40, 0.85);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a14 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+        
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        /* Main Container with 3D effect */
+        .main-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transform-style: preserve-3d;
+        }
+        
+        /* Glass Morphism Cards */
+        .page {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px 30px;
+            width: 95%;
+            max-width: 500px;
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(0, 255, 157, 0.1),
+                inset 0 0 20px rgba(0, 255, 157, 0.05);
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+            animation: pageAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        @keyframes pageAppear {
+            0% { 
+                opacity: 0; 
+                transform: translateY(50px) rotateX(-10deg) scale(0.9); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) rotateX(0) scale(1); 
+            }
+        }
+        
+        /* Neon Glow Effects */
+        .neon-glow {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                var(--neon-green), 
+                var(--neon-blue), 
+                var(--neon-purple), 
+                var(--neon-green));
+            border-radius: 27px;
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0.3;
+            animation: neonPulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes neonPulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .page-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        }
+        
+        .page-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            max-width: 400px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* Balance Display */
+        .balance-card {
+            background: linear-gradient(135deg, 
+                rgba(0, 255, 157, 0.1), 
+                rgba(0, 217, 255, 0.1));
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+        
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.1), 
+                transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            100% { left: 100%; }
+        }
+        
+        .balance-label {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .balance-amount {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #fff, var(--neon-green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 15px 0;
+            text-shadow: 0 0 20px rgba(0, 255, 157, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(0, 255, 157, 0.5); }
+            to { text-shadow: 0 0 20px rgba(0, 255, 157, 0.8), 0 0 30px rgba(0, 255, 157, 0.6); }
+        }
+        
+        /* Input Fields */
+        .input-group {
+            margin: 25px 0;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--neon-blue);
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 20px 25px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            border-radius: 15px;
+            color: white;
+            font-size: 1.3rem;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        .input-field:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        /* Buttons */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            padding: 22px;
+            border: none;
+            border-radius: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            margin: 20px 0;
+            transform-style: preserve-3d;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+            color: #0a0a14;
+            box-shadow: 0 10px 30px rgba(0, 255, 157, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 255, 157, 0.5);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0) scale(0.98);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--neon-blue);
+            border: 2px solid var(--neon-blue);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(0, 217, 255, 0.1);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.3);
+        }
+        
+        /* Progress/Timer */
+        .timer-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid rgba(0, 255, 157, 0.2);
+        }
+        
+        .timer-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .timer-display {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+            margin: 10px 0;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+            border-radius: 6px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        /* Navigation Dots */
+        .nav-dots {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
+        
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-dot.active {
+            background: var(--neon-green);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        /* Results/Notifications */
+        .result-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            z-index: 1000;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .result-message.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Floating UC Coins */
+        .uc-coin {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, gold, orange);
+            border-radius: 50%;
+            box-shadow: 0 0 20px gold;
+            z-index: -1;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { 
+                transform: translateY(100vh) rotate(0deg); 
+                opacity: 0; 
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                transform: translateY(-100px) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .page-header h1 { font-size: 2.2rem; }
+            .balance-amount { font-size: 3.5rem; }
+            .btn { padding: 20px; font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Floating UC Coins -->
+    <div id="coins-container"></div>
+    
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Page 1: Main Page -->
+        <div class="page active" id="page1">
+            <div class="neon-glow"></div>
+            <div class="page-header">
+                <h1><i class="fas fa-crown"></i> PUBG UC PRO</h1>
+                <p>Professional UC Generator - Kuniga 200 UC bepul!</p>
+            </div>
+            
+            <div class="balance-card">
+                <div class="balance-label">Joriy Balans</div>
+                <div class="balance-amount" id="balance">200</div>
+                <div style="color: rgba(255,255,255,0.7);">UC</div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label"><i class="fas fa-id-card"></i> PUBG ID RAQAMINGIZ</label>
+                <input type="number" class="input-field" id="pubgId" placeholder="Misol: 1234567890" maxlength="12">
+            </div>
+            
+            <button class="btn btn-primary" onclick="claimUC()">
+                <i class="fas fa-bolt"></i> UC OLISH
+            </button>
+            
+            <div class="timer-container">
+                <div class="timer-label">Keyingi UC gacha qolgan vaqt:</div>
+                <div class="timer-display" id="timer">24:00:00</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="nextPage()">
+                <i class="fas fa-chart-line"></i> STATISTIKA
+            </button>
+        </div>
+        
+        <!-- Page 2: Statistics -->
+        <div class="page" id="page2">
+            <div class="neon-glow"></div>
+            <div class="page-header">
+                <h1><i class="fas fa-chart-bar"></i> STATISTIKA</h1>
+                <p>Sizning UC faolligingiz</p>
+            </div>
+            
+            <div style="margin: 30px 0;">
+                <div style="background: rgba(0,255,157,0.1); padding: 20px; border-radius: 15px; margin: 15px 0;">
+                    <div style="color: rgba(255,255,255,0.8);">Umumiy Olingan UC</div>
+                    <div style="font-family: 'Orbitron'; font-size: 2.5rem; color: var(--neon-green);">1,250</div>
+                </div>
+                
+                <div style="background: rgba(0,217,255,0.1); padding: 20px; border-radius: 15px; margin: 15px 0;">
+                    <div style="color: rgba(255,255,255,0.8);">Kunlar ketma-ketligi</div>
+                    <div style="font-family: 'Orbitron'; font-size: 2.5rem; color: var(--neon-blue);">7</div>
+                </div>
+                
+                <div style="background: rgba(157,0,255,0.1); padding: 20px; border-radius: 15px; margin: 15px 0;">
+                    <div style="color: rgba(255,255,255,0.8);">Keyingi Daraja</div>
+                    <div style="font-family: 'Orbitron'; font-size: 2rem; color: var(--neon-purple);">500 UC qolganda</div>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" onclick="prevPage()">
+                <i class="fas fa-arrow-left"></i> ORQAGA
+            </button>
+            
+            <button class="btn btn-secondary" onclick="nextPage2()">
+                <i class="fas fa-gift"></i> BONUSLAR
+            </button>
+        </div>
+        
+        <!-- Page 3: Bonuses -->
+        <div class="page" id="page3">
+            <div class="neon-glow"></div>
+            <div class="page-header">
+                <h1><i class="fas fa-gift"></i> BONUS TIZIMI</h1>
+                <p>Qo'shimcha UC olish imkoniyatlari</p>
+            </div>
+            
+            <div style="margin: 30px 0;">
+                <div style="background: rgba(255,193,7,0.1); padding: 20px; border-radius: 15px; margin: 15px 0; border: 1px solid rgba(255,193,7,0.3);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="color: #ffc107; font-weight: 600;">Kunlik Bonus</div>
+                            <div style="color: rgba(255,255,255,0.7);">Har kuni qayta kel +50 UC</div>
+                        </div>
+                        <button class="btn btn-primary" style="padding: 10px 20px; width: auto;" onclick="claimDailyBonus()">
+                            OLISH
+                        </button>
+                    </div>
+                </div>
+                
+                <div style="background: rgba(76,175,80,0.1); padding: 20px; border-radius: 15px; margin: 15px 0; border: 1px solid rgba(76,175,80,0.3);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="color: #4caf50; font-weight: 600;">Do'st Taklif</div>
+                            <div style="color: rgba(255,255,255,0.7);">Har do'st uchun +25 UC</div>
+                        </div>
+                        <button class="btn btn-primary" style="padding: 10px 20px; width: auto;" onclick="copyReferral()">
+                            NUSXALASH
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" onclick="prevPage2()">
+                <i class="fas fa-arrow-left"></i> ORQAGA
+            </button>
+        </div>
+    </div>
+    
+    <!-- Result Message -->
+    <div class="result-message" id="resultMessage">
+        <div class="result-icon" id="resultIcon">🎮</div>
+        <h2 id="resultTitle">UC Yuborildi!</h2>
+        <p id="resultText" style="margin: 20px 0; line-height: 1.6;"></p>
+        <button class="btn btn-primary" onclick="closeResult()" style="width: auto; padding: 15px 30px;">
+            TAMOM
+        </button>
+    </div>
+    
+    <!-- Navigation Dots -->
+    <div class="nav-dots" id="navDots"></div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // State Management
+        let currentBalance = 200;
+        let lastClaimTime = localStorage.getItem('lastClaimTime');
+        let timerInterval;
+        let totalSeconds = 24 * 60 * 60;
+        let currentPage = 1;
+        let dailyBonusClaimed = localStorage.getItem('dailyBonusClaimed');
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initParticles();
+            createFloatingCoins();
+            initNavigation();
+            updateTimer();
+            checkDailyBonus();
+        });
+        
+        // Particle Background
+        function initParticles() {
+            particlesJS("particles-js", {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: ["#00ff9d", "#00d9ff", "#9d00ff"] },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#00ff9d",
+                        opacity: 0.2,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "repulse" },
+                        onclick: { enable: true, mode: "push" }
+                    }
+                }
+            });
+        }
+        
+        // Create floating UC coins
+        function createFloatingCoins() {
+            const container = document.getElementById('coins-container');
+            for (let i = 0; i < 15; i++) {
+                const coin = document.createElement('div');
+                coin.className = 'uc-coin';
+                coin.style.left = Math.random() * 100 + 'vw';
+                coin.style.animationDelay = Math.random() * 15 + 's';
+                coin.style.width = (20 + Math.random() * 30) + 'px';
+                coin.style.height = coin.style.width;
+                container.appendChild(coin);
+            }
+        }
+        
+        // Page Navigation
+        function initNavigation() {
+            const dotsContainer = document.getElementById('navDots');
+            for (let i = 1; i <= 3; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'nav-dot' + (i === 1 ? ' active' : '');
+                dot.onclick = () => goToPage(i);
+                dotsContainer.appendChild(dot);
+            }
+        }
+        
+        function goToPage(pageNum) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.nav-dot').forEach(dot => dot.classList.remove('active'));
+            
+            document.getElementById('page' + pageNum).classList.add('active');
+            document.querySelectorAll('.nav-dot')[pageNum - 1].classList.add('active');
+            
+            // 3D page transition effect
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.style.transform = `rotateY(${(pageNum - currentPage) * 10}deg)`;
+            });
+            
+            currentPage = pageNum;
+        }
+        
+        function nextPage() { goToPage(2); }
+        function nextPage2() { goToPage(3); }
+        function prevPage() { goToPage(1); }
+        function prevPage2() { goToPage(2); }
+        
+        // Timer Functionality
+        function updateTimer() {
+            if (lastClaimTime) {
+                const now = Math.floor(Date.now() / 1000);
+                const lastClaim = parseInt(lastClaimTime);
+                const elapsed = now - lastClaim;
+                
+                if (elapsed < totalSeconds) {
+                    const remaining = totalSeconds - elapsed;
+                    updateTimerDisplay(remaining);
+                    
+                    const progress = (elapsed / totalSeconds) * 100;
+                    document.getElementById('progressFill').style.width = progress + '%';
+                    
+                    if (remaining <= 0) {
+                        currentBalance = 200;
+                        updateBalance();
+                        localStorage.removeItem('lastClaimTime');
+                    } else {
+                        currentBalance = 0;
+                        updateBalance();
+                    }
+                } else {
+                    currentBalance = 200;
+                    updateBalance();
+                    localStorage.removeItem('lastClaimTime');
+                    updateTimerDisplay(totalSeconds);
+                    document.getElementById('progressFill').style.width = '0%';
+                }
+            } else {
+                updateTimerDisplay(totalSeconds);
+                document.getElementById('progressFill').style.width = '0%';
+            }
+        }
+        
+        function updateTimerDisplay(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            
+            document.getElementById('timer').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function updateBalance() {
+            document.getElementById('balance').textContent = currentBalance;
+        }
+        
+        // Claim UC Function
+        function claimUC() {
+            const pubgId = document.getElementById('pubgId').value.trim();
+            
+            if (!pubgId) {
+                showResult('error', 'Xatolik', 'Iltimos, PUBG ID ni kiriting!');
+                return;
+            }
+            
+            if (pubgId.length < 6) {
+                showResult('error', 'Xatolik', 'ID 6 raqamdan kam bo\'lmasin!');
+                return;
+            }
+            
+            if (currentBalance <= 0) {
+                showResult('error', 'UC Tugadi!', 'Keyingi UC uchun taymerni kuting.');
+                return;
+            }
+            
+            // Success
+            showResult('success', 'MUVAFFAQIYATLI!', 
+                `🎮 PUBG ID: <strong>${pubgId}</strong><br>` +
+                `💰 MIQDOR: <strong>${currentBalance} UC</strong><br>` +
+                `📊 YANGI BALANS: <strong>0 UC</strong><br><br>` +
+                `⏳ Keyingi UC: 24 soatdan keyin`);
+            
+            // Update state
+            currentBalance = 0;
+            updateBalance();
+            lastClaimTime = Math.floor(Date.now() / 1000);
+            localStorage.setItem('lastClaimTime', lastClaimTime);
+            
+            // Reset input
+            document.getElementById('pubgId').value = '';
+            
+            // Start timer
+            updateTimer();
+        }
+        
+        // Daily Bonus
+        function checkDailyBonus() {
+            const today = new Date().toDateString();
+            if (dailyBonusClaimed === today) {
+                // Bonus already claimed today
+                document.querySelector('[onclick="claimDailyBonus()"]').disabled = true;
+                document.querySelector('[onclick="claimDailyBonus()"]').innerHTML = 'OLINGAN';
+            }
+        }
+        
+        function claimDailyBonus() {
+            const today = new Date().toDateString();
+            currentBalance += 50;
+            updateBalance();
+            dailyBonusClaimed = today;
+            localStorage.setItem('dailyBonusClaimed', today);
+            
+            showResult('success', 'BONUS OLINDI!', 'Kunlik bonus +50 UC hisobingizga qo\'shildi!');
+            
+            document.querySelector('[onclick="claimDailyBonus()"]').disabled = true;
+            document.querySelector('[onclick="claimDailyBonus()"]').innerHTML = 'OLINGAN';
+        }
+        
+        // Referral
+        function copyReferral() {
+            const referralLink = 'https://t.me/your_bot?start=ref' + Math.floor(Math.random() * 10000);
+            navigator.clipboard.writeText(referralLink).then(() => {
+                showResult('success', 'NUSXALANDI!', 'Taklif havolasi nusxalandi!');
+            });
+        }
+        
+        // Result Modal
+        function showResult(type, title, message) {
+            const modal = document.getElementById('resultMessage');
+            const icon = document.getElementById('resultIcon');
+            const modalTitle = document.getElementById('resultTitle');
+            const modalText = document.getElementById('resultText');
+            
+            if (type === 'success') {
+                icon.textContent = '🎉';
+                modalTitle.style.color = '#00ff9d';
+            } else {
+                icon.textContent = '⚠️';
+                modalTitle.style.color = '#ff4757';
+            }
+            
+            modalTitle.textContent = title;
+            modalText.innerHTML = message;
+            modal.classList.add('show');
+        }
+        
+        function closeResult() {
+            document.getElementById('resultMessage').classList.remove('show');
+        }
+        
+        // Start timer updates
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
